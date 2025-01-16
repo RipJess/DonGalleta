@@ -1,0 +1,33 @@
+services:
+  mysql:
+    image: mysql:9.1.0
+    container_name: DG-MySQL
+    environment:
+      MYSQL_ROOT_PASSWORD: DonGalleta123*_
+      MYSQL_DATABASE: DonGalleta
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: DonGalleta123*_
+    ports:
+      - "3316:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest 
+    container_name: DG-PHPMyAdmin
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - "8086:80"
+    depends_on:
+      - mysql
+
+  apache:
+    image: php:8.2-apache
+    container_name: DG-Apache
+    volumes:
+      - ./www:/var/www/html
+    ports:
+      - "8085:80"
+    depends_on:
+      - mysql
