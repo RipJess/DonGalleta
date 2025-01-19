@@ -26,8 +26,8 @@
                         <input type="text" id="buscar" placeholder="Buscar..." />
                     </form>
                     <img class="bag" src="img/bag.svg" />
-                    <div class="sign-in">
-                        <div class="get-started">Iniciar sesión</div>
+                    <div class="btn-iniciar-sesion">
+                        <a class="boton" href="login.php"> Iniciar sesión </a>
                     </div>
                 </div>
             </div>
