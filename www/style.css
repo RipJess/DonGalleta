@@ -9,7 +9,7 @@
   position: relative;
   width: fit-content;
   margin-top: -1.00px;
-  font-family: "Poppins-Medium", Helvetica;
+  font-family: "Poppins", Helvetica;
   font-weight: 500;
   color: transparent;
   font-size: 60px;
@@ -66,9 +66,11 @@
 
 .homepage .p {
   position: relative;
-  width: 712px;
-  font-family: "Inter-Regular", Helvetica;
-  font-weight: 400;
+  width: 725px;
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
   color: #404040;
   font-size: 16px;
   letter-spacing: 0;
@@ -79,14 +81,6 @@
   position: relative;
   width: 125px;
   height: 87px;
-}
-
-.homepage .img-2 {
-  position: relative;
-  width: 191px;
-  height: 141px;
-  margin-bottom: -8.00px;
-  margin-left: -4.00px;
 }
 
 .homepage .figura {
@@ -116,6 +110,24 @@
   height: 100%;
 }
 
+#buscar:focus {
+  outline: none;
+}
+
+#puntosEntrega {
+  border: 0;
+  background: none;
+  background-position: 100%;
+  font-size: 16px;
+  width: 100%;
+  height: 100%;
+  
+}
+
+#puntosEntrega:focus {
+  outline: none;
+}
+
 .homepage .group {
   position: relative;
   width: 815px;
@@ -127,6 +139,7 @@
   position: relative;
   width: 766px;
   height: 90px;
+  
 }
 
 .homepage .overlap-group {
@@ -137,11 +150,12 @@
   left: 200px;
 }
 
-.homepage .component {
+.homepage .galleta1 {
   flex-direction: column;
   align-items: center;
   padding: 20px 50px 20px 0px;
-  left: 403px;
+  left: 405px;
+  top: -1px;
   background-color: #f0d2b8;
   display: flex;
   width: 125px;
@@ -149,7 +163,20 @@
   justify-content: center;
   gap: 10px;
   position: absolute;
-  top: 8px;
+  border-radius: 50px;
+}
+
+.homepage .galleta2 {
+  align-items: flex-start;
+  padding: 0px 50px 20px;
+  top: 3px;
+  background-color: #974837;
+  display: flex;
+  width: 125px;
+  height: 75px;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
   border-radius: 50px;
 }
 
@@ -169,21 +196,6 @@
   position: relative;
   height: 75px;
   margin-bottom: -20.00px;
-}
-
-.homepage .imagen-wrapper {
-  align-items: flex-start;
-  padding: 0px 50px 20px;
-  left: 0;
-  background-color: #974837;
-  display: flex;
-  width: 125px;
-  height: 75px;
-  justify-content: center;
-  gap: 10px;
-  position: absolute;
-  top: 8px;
-  border-radius: 50px;
 }
 
 .homepage .sign-in {
@@ -455,12 +467,11 @@
   left: 850px;
 }
 
-.homepage .frame-20 {
+.homepage .recuadro_busqueda {
   display: flex;
   width: 450px;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 25px;
   position: relative;
   background-color: #f7ece8;
   border-radius: 10px;
@@ -506,10 +517,11 @@
 
 .homepage .text-wrapper-4 {
   position: absolute;
-  top: 0;
+  top: -13px;
   left: 550px;
-  font-family: "Poppins-Medium", Helvetica;
+  font-family: "Poppins", serif;
   font-weight: 500;
+  font-style: normal;
   color: #930606d4;
   font-size: 60px;
   letter-spacing: 0;
@@ -518,10 +530,10 @@
 
 .homepage .text-wrapper-5 {
   position: absolute;
-  top: 0;
-  left: 0;
-  font-family: "Poppins-Medium", Helvetica;
+  top: -13px;
+  font-family: "Poppins", serif;
   font-weight: 500;
+  font-style: normal;
   color: #202020;
   font-size: 60px;
   letter-spacing: 0;
@@ -531,10 +543,11 @@
 
 .homepage .text-wrapper-6 {
   position: absolute;
-  top: 0;
-  left: 135px;
-  font-family: "Poppins-Medium", Helvetica;
+  top: -7px;
+  left: 142px;
+  font-family: "Poppins", serif;
   font-weight: 500;
+  font-style: normal;
   color: #930606d4;
   font-size: 60px;
   letter-spacing: 0;
@@ -639,9 +652,9 @@
 }
 
 .homepage .text-wrapper-16 {
-  -webkit-text-stroke: 3px #f0d2b8;
+  -webkit-text-stroke: 2px #f0d2b8;
   color: #58321d;
-  font-size: 64px;
+  font-size: 4rem;
   position: relative;
   width: fit-content;
   font-family: "Berkshire Swash", serif;
