@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./index.css">
     <link rel="stylesheet" href="./globals.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Inter:opsz,wght@14..32,100..900&family=Poppins:ital,wght@0,400;0,500;1,500&display=swap');
@@ -15,7 +16,7 @@
 
 <body>
     <div class="homepage">
-        <div class="div">
+        <div class="hola">
             <div class="frame-18">
                 <div class="frame-21">
                     <img class="img-fluid" src="img/logo.png" />
@@ -175,9 +176,19 @@
                             <div class="text-wrapper-2">Contacto</div>
                         </div>
                     </div>
+                    <div class="redes-sociales">
+                        <div>
+                            <img src="img/facebook-icon.svg" alt="">
+                        </div>
+                        <div>
+                            <img src="img/twitter-icon.svg" alt="">
+                        </div>
+                        <div>
+                            <img src="img/instagram-icon.svg" alt="">
+                        </div>
+                    </div>
                 </div>
             </footer>
-
         </div>
     </div>
 </body>
