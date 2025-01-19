@@ -184,28 +184,25 @@
   margin-bottom: -20.00px;
 }
 
-.homepage .sign-in {
-  display: inline-flex;
-  align-items: center;
+.homepage .btn-iniciar-sesion {
+  display: flex;
+  display: flex;
+  padding: 1rem 1.5625rem;
   justify-content: center;
-  gap: 10px;
-  padding: 16px 25px;
-  position: relative;
-  flex: 0 0 auto;
-  background-color: #58321d;
-  border-radius: 10px;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 0.625rem;
+  background: #58321D;
 }
 
-.homepage .get-started {
-  position: relative;
-  width: fit-content;
-  margin-top: -1.00px;
-  font-family: "Inter-SemiBold", Helvetica;
+.homepage .boton {
+  color: #FDFBFA;
+  font-family: Inter;
+  font-size: 0.875rem;
+  font-style: normal;
   font-weight: 600;
-  color: #fdfbfa;
-  font-size: 14px;
-  letter-spacing: 0;
   line-height: normal;
+  text-decoration: none;
 }
 
 .homepage .frame-wrapper {
