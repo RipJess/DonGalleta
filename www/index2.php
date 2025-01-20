@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./index.css">
     <link rel="stylesheet" href="./globals.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Inter:opsz,wght@14..32,100..900&family=Poppins:ital,wght@0,400;0,500;1,500&display=swap');
     </style>
@@ -26,8 +27,32 @@
                         <input type="text" id="buscar" placeholder="Buscar..." />
                     </form>
                     <img class="bag" src="img/bag.svg" />
-                    <div class="btn-iniciar-sesion">
-                        <a class="boton" href="login.php"> Iniciar sesión </a>
+                    <div style="display: flex; flex-direction: row">
+                        <i class="bi bi-person-circle"
+                            style="font-size: 2.5rem; margin-left: 0.6rem; margin-top: -3px;">
+                        </i>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-light"
+                                style="border: 0; color: black; max-height: 2rem; margin: 0.8rem 0.2rem">
+                                <?php
+                                //echo $_SESSION['nombre'];
+                                ?>
+                            </button>
+                            <button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split"
+                                data-bs-toggle="dropdown" aria-expanded="false"
+                                style="border: 0; color: black; max-height: 2rem; margin: 0.8rem 0rem">
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Separated link</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -191,6 +216,8 @@
             </footer>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
