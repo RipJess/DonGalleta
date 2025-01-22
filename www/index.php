@@ -1,3 +1,7 @@
+<?php
+session_start()
+    ?>
+
 <!DOCTYPE html>
 <html lang="es-MX">
 
@@ -8,6 +12,7 @@
     <link rel="stylesheet" href="./globals.css">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Inter:opsz,wght@14..32,100..900&family=Poppins:ital,wght@0,400;0,500;1,500&display=swap');
     </style>
@@ -26,9 +31,35 @@
                         <input type="text" id="buscar" placeholder="Buscar..." />
                     </form>
                     <img class="bag" src="img/bag.svg" />
-                    <div class="btn-iniciar-sesion">
-                        <a class="boton" href="login.php"> Iniciar sesión </a>
-                    </div>
+                    <?php if (isset($_SESSION['id'])): ?>
+                        <div style="display: flex; flex-direction: row">
+                            <i class="bi bi-person-circle"
+                                style="font-size: 2.5rem; margin-left: 0.6rem; margin-top: -3px;">
+                            </i>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-outline-light"
+                                    style="border: 0; color: black; max-height: 2rem; min-width: 10rem; margin: 0.8rem 0.2rem">
+                                    <?php echo htmlspecialchars($_SESSION["user"]); ?>
+                                </button>
+                                <button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split"
+                                    data-bs-toggle="dropdown" aria-expanded="false"
+                                    style="border: 0; color: black; max-height: 2rem; margin: 0.8rem 0rem">
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+                                    <li><a class="dropdown-item" href="#">algo</a></li>
+                                    <li><a class="dropdown-item" href="#">algo</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="logout.php">Cerrar sesión</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div class="btn-iniciar-sesion">
+                            <a class="boton" href="login.php"> Iniciar sesión </a>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <img class="figura" src="img/figura.png" />
@@ -191,6 +222,7 @@
             </footer>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
