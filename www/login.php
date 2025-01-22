@@ -21,7 +21,6 @@
             <div class="logo-container">
                 <img src="img/logo.png" alt="Don Galleta Logo" class="img-fluid">
             </div>
-
             <form method="post" action="login-db.php">
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingInput" placeholder="ejemplo@correo.com"
@@ -36,7 +35,6 @@
                     <!-- <i class="fas fa-eye password-toggle" id="togglePassword"></i> -->
                 </div>
                 <br>
-
                 <div>
                     <?php
                     if (isset($_GET["error"])) {
