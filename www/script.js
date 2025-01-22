@@ -10,6 +10,7 @@ const btnAgregarProducto = document.getElementById("btn-agregar-producto");
 const cerrarModal = document.getElementById("cerrar-modal");
 const formProducto = document.getElementById("form-producto");
 const nombreInput = document.getElementById("nombre");
+const saborInput = document.getElementById("sabor")
 const descripcionInput = document.getElementById("descripcion");
 const precioInput = document.getElementById("precio");
 const cantidadInput = document.getElementById("cantidad");
@@ -21,12 +22,13 @@ let editando = false;  // Controla si estamos editando un producto
 function mostrarProductos() {
   tablaProductos.innerHTML = "";  // Limpiar tabla
   if (productos.length === 0) {
-    tablaProductos.innerHTML = "<tr><td colspan='5'>No hay productos disponibles.</td></tr>";
+    tablaProductos.innerHTML = "<tr><td colspan='6'>No hay productos disponibles.</td></tr>";
   } else {
     productos.forEach(producto => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${producto.nombre}</td>
+        <td>${producto.sabor}</td>
         <td>${producto.descripcion}</td>
         <td>$${producto.precio.toFixed(2)} MXN</td>
         <td>${producto.cantidad}</td>
@@ -40,44 +42,45 @@ function mostrarProductos() {
   }
 }
 
-// Mostrar pedidos en la tabla
-function mostrarPedidos() {
-  tablaPedidos.innerHTML = "";  // Limpiar tabla
-  if (pedidos.length === 0) {
-    tablaPedidos.innerHTML = "<tr><td colspan='5'>No hay pedidos recientes.</td></tr>";
-  } else {
-    pedidos.forEach(pedido => {
-      const tr = document.createElement("tr");
-
-      // Crear la lista de productos en el pedido
-      const productosPedido = pedido.productos.map(producto => {
-        return `
-          <p>${producto.nombre} - ${producto.cantidad} x $${producto.precio.toFixed(2)} MXN</p>
-        `;
-      }).join('');
-
-      // Calcular el total del pedido
-      const totalPedido = pedido.productos.reduce((total, producto) => {
-        return total + (producto.precio * producto.cantidad);
-      }, 0);
-
-      tr.innerHTML = `
-        <td>${pedido.cliente}</td>
-        <td>${pedido.fecha}</td>
-        <td>${pedido.estado}</td>
-        <td>${productosPedido}</td>
-        <td>$${totalPedido.toFixed(2)} MXN</td>
-      `;
-      tablaPedidos.appendChild(tr);
-    });
-  }
-}
+//  Mostrar pedidos en la tabla
+// function mostrarPedidos() {
+//   tablaPedidos.innerHTML = "";  // Limpiar tabla
+//   if (pedidos.length === 0) {
+//     tablaPedidos.innerHTML = "<tr><td colspan='5'>No hay pedidos recientes.</td></tr>";
+//   } else {
+//     pedidos.forEach(pedido => {
+//       const tr = document.createElement("tr");
+// 
+//       // Crear la lista de productos en el pedido
+//       const productosPedido = pedido.productos.map(producto => {
+//         return `
+//           <p>${producto.nombre} - ${producto.cantidad} x $${producto.precio.toFixed(2)} MXN</p>
+//         `;
+//       }).join('');
+// 
+//       // Calcular el total del pedido
+//       const totalPedido = pedido.productos.reduce((total, producto) => {
+//         return total + (producto.precio * producto.cantidad);
+//       }, 0);
+// 
+//       tr.innerHTML = `
+//         <td>${pedido.cliente}</td>
+//         <td>${pedido.fecha}</td>
+//         <td>${pedido.estado}</td>
+//         <td>${productosPedido}</td>
+//         <td>$${totalPedido.toFixed(2)} MXN</td>
+//       `;
+//       tablaPedidos.appendChild(tr);
+//     });
+//   }
+// }
 
 // Agregar un nuevo producto
 btnAgregarProducto.addEventListener("click", () => {
   editando = false;  // No estamos editando
   modalProducto.style.display = "flex";
   nombreInput.value = "";
+  saborInput.value ="";
   descripcionInput.value = "";
   precioInput.value = "";
   cantidadInput.value = "";
@@ -94,6 +97,7 @@ formProducto.addEventListener("submit", (e) => {
 
   const nuevoProducto = {
     nombre: nombreInput.value,
+    sabor: saborInput.value,
     descripcion: descripcionInput.value,
     precio: parseFloat(precioInput.value),
     cantidad: parseInt(cantidadInput.value)
@@ -118,6 +122,7 @@ function editarProducto(id) {
   const producto = productos.find(p => p.id === id);
 
   nombreInput.value = producto.nombre;
+  saborInput.value=producto.sabor;
   descripcionInput.value = producto.descripcion;
   precioInput.value = producto.precio;
   cantidadInput.value = producto.cantidad;
