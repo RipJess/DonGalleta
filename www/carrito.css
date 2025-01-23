@@ -89,7 +89,7 @@ body {
     border: none;
     border-radius: 5px;
     padding: 10px;
-    width: 100%;
+    width: 40%;
 }
 
 .btn-checkout:hover {
@@ -140,4 +140,22 @@ body {
 
 .boton {
     color: white;
+}
+
+.btn-vaciar {
+    width: 40%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #B93A32;
+    color: white;
+}
+
+.btn-vaciar:hover {
+    background-color: #9e2f28;
+}
+
+.frame {
+    display: flex;
+    justify-content: space-around;
 }
