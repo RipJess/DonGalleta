@@ -7,10 +7,10 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #f7ece8;
-  margin-bottom: 0; /* Elimina el margen extra que puede causar el espacio blanco */
+  margin-bottom: 0;
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Asegura que el cuerpo ocupe todo el alto de la pantalla */
+  min-height: 100vh;
 }
 
 header {
@@ -27,7 +27,7 @@ header {
 
 .container {
   padding: 20px;
-  flex-grow: 1; /* Asegura que el contenido crezca para llenar el espacio disponible */
+  flex-grow: 1; 
 }
 
 h2 {
@@ -107,14 +107,14 @@ button:hover {
   background-color: #58321D;
 }
 
-/* Ajustes en el footer */
+
 .homepage {
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 100%;
   background-color: #f7ece8;
-  margin-top: auto; /* Hace que el footer se quede al fondo */
+  margin-top: auto; 
 }
 
 .homepage .footer {
