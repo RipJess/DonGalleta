@@ -159,3 +159,48 @@ body {
     display: flex;
     justify-content: space-around;
 }
+
+#mapa { 
+    height: 500px;
+    border-radius: 10px;
+}
+
+#listaUbicaciones .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#listaUbicaciones .list-group-item:hover {
+    background-color: #e9ecef;
+}
+
+#listaUbicaciones .list-group-item .ubicacion-info h5 {
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+#listaUbicaciones .list-group-item .ubicacion-info p {
+    margin-bottom: 0;
+    color: #6c757d;
+}
+
+.card-header {
+    background: #58321D;
+    color: white;
+}
+
+.ubi{
+    font-weight: bold;
+}
+
+.punto-entrega{
+    font-weight: bold;
+}
+
+

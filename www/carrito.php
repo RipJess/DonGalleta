@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./carrito.css">
     <link rel="stylesheet" href="./globals.css">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Inter:opsz,wght@14..32,100..900&family=Poppins:ital,wght@0,400;0,500;1,500&display=swap');
     </style>
@@ -50,15 +51,121 @@
                 </div>
             </div>
             <div class="delivery-box">
-                <h4 class="mb-3">Punto de entrega</h4>
+                <h4 class="punto-entrega mb-3">Punto de entrega</h4>
                 <p class="mb-0">
-                    Av. Doctor Modesto Seara Vázquez #1, Acatlima, 69000 Heroica Cdad. de Huajuapan de León, Oax.                
+                    sin punto de entrega seleccionado             
                 </p>
+            </div>
+
+                    <!-- Sección de ubicaciones que ocupa todo el ancho -->
+            <div class="ubicaciones-section w-100">
+                <h3 class="ubi mb-4">Ubicaciones</h3>
+                
+                <!-- Contenedor para el mapa y lista de ubicaciones -->
+                <div class="ubicaciones-container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class=" ard">
+                                <div class="list-group list-group-flush" id="listaUbicaciones">
+                                    <!-- Los elementos de la lista se generarán dinámicamente aquí -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div id="mapa"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script>
+        class MapaUbicaciones {
+            constructor() {
+                this.mapa = L.map('mapa').setView([17.811972882442998, -97.77996156738978], 14);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© Colaboradores de OpenStreetMap'
+                }).addTo(this.mapa);
+                this.deliveryBox = document.querySelector('.delivery-box p');
+            }
+
+            obtenerSucursales() {
+                fetch('back-mapa.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'action=obtener_sucursales'
+                })
+                .then(response => response.json())
+                .then(sucursales => {
+                    this.mostrarSucursales(sucursales);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al obtener las sucursales');
+                });
+            }
+
+            actualizarDireccionEntrega(nombre, direccion) {
+                if (this.deliveryBox) {
+                    let nombreMayus = nombre.toUpperCase();
+                    this.deliveryBox.innerHTML = `
+                        <strong>${nombreMayus}</strong><br>
+                        ${direccion}
+                    `;
+                }
+            }
+
+            mostrarSucursales(sucursales) {
+                const listaUbicaciones = document.getElementById('listaUbicaciones');
+                listaUbicaciones.innerHTML = '';
+
+                sucursales.forEach(sucursal => {
+                    const itemLista = document.createElement('li');
+                    itemLista.className = 'list-group-item list-group-item-action';
+                    itemLista.textContent = sucursal.nombre;
+                    itemLista.setAttribute('data-lat', sucursal.latitud);
+                    itemLista.setAttribute('data-lng', sucursal.longitud);
+                    itemLista.setAttribute('data-direccion', sucursal.direccion);
+                    listaUbicaciones.appendChild(itemLista);
+
+                    const marcador = L.marker([sucursal.latitud, sucursal.longitud])
+                        .addTo(this.mapa)
+                        .bindPopup(sucursal.nombre);
+
+                    // Actualizar dirección al hacer clic en el marcador
+                    marcador.on('click', () => {
+                        this.actualizarDireccionEntrega(sucursal.nombre, sucursal.direccion);
+                    });
+                });
+
+                document.querySelectorAll('.list-group-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const lat = parseFloat(item.getAttribute('data-lat'));
+                        const lng = parseFloat(item.getAttribute('data-lng'));
+                        const nombre = item.textContent;
+                        const direccion = item.getAttribute('data-direccion');
+
+                        // Actualizar el mapa
+                        this.mapa.flyTo([lat, lng], 16, {
+                            duration: 1.5,
+                            easeLinearity: 0.25
+                        });
+
+                        // Actualizar la dirección de entrega
+                        this.actualizarDireccionEntrega(nombre, direccion);
+                    });
+                });
+            }
+        }
+
+        const mapa = new MapaUbicaciones();
+        mapa.obtenerSucursales();
+    </script>
     <script>
         // Plantilla para un producto en el carrito
         function productoTemplate(producto) {
