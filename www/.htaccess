@@ -1,0 +1,5 @@
+# Bloquear acceso a cualquier archivo dentro de /private
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^private/ - [F,L]
+</IfModule>
