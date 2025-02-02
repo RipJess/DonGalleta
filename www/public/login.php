@@ -4,14 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./login.css">
-    <link rel="stylesheet" href="./globals.css">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Inter:opsz,wght@14..32,100..900&family=Poppins:ital,wght@0,400;0,500;1,500&display=swap');
-    </style>
+    <link rel="stylesheet" href="./css/globals.css">
+    <link rel="stylesheet" href="./css/login.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
     <title>Don Galleta | Login</title>
 </head>
 
@@ -19,9 +16,10 @@
     <div class="container">
         <div class="login-card mx-auto">
             <div class="logo-container">
-                <img src="img/logo.png" alt="Don Galleta Logo" class="img-fluid">
+                <img src="./img/logo.png" alt="Don Galleta Logo" class="img-fluid">
             </div>
-            <form method="post" action="login-db.php">
+
+            <form method="post" action="./api/iniciar-sesion.php">
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingInput" placeholder="ejemplo@correo.com"
                         name="email">
@@ -32,9 +30,11 @@
                     <input type="password" class="form-control" id="floatingPassword" placeholder="••••••••"
                         name="password">
                     <label for="floatingPassword">Contraseña</label>
-                    <!-- <i class="fas fa-eye password-toggle" id="togglePassword"></i> -->
+                    <br>
+                    <a href="#" class="forgot-password">¿Olvidate tu contraseña?</a>
                 </div>
                 <br>
+
                 <div>
                     <?php
                     if (isset($_GET["error"])) {
@@ -58,7 +58,7 @@
                 <div class="text-center mb-3">
                     <br>
                     <!-- <a href="/forgot-password" class="forgot-password">¿Olvidaste tu contraseña?</a> -->
-                    <a href="registro.php" class="forgot-password">¿Eres nuevo?</a>
+                    <a class="forgot-password" href="registro.php">¿Eres nuevo?</a>
                 </div>
             </form>
         </div>

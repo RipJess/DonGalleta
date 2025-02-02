@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 
         if ($unidades <= 0) {
             $disponibilidad = "0";
-        }else {
+        } else {
             $disponibilidad = "1";
         }
 
