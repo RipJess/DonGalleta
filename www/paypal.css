@@ -1,0 +1,65 @@
+body {
+    background-color: #f7ece8;
+    min-height: 100vh;
+    padding: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+.frame-18 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    max-width: 900px;
+    min-width: 375px;
+    margin: 0 auto;
+}
+.boton{
+    color: white;
+    
+}
+
+.recuadro_busqueda {
+    background: #f7ece8;
+    border-radius: 10px;
+    padding: 15px 25px;
+    border: 1px solid;
+    opacity: 0.75;
+}
+
+.recuadro_busqueda input {
+    background: #f7ece8;
+    border: none;
+    outline: none;
+    width: 150px;
+}
+
+.btn-iniciar-sesion {
+    display: flex;
+    padding: 1rem 1.5625rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    border-radius: 0.625rem;
+    background: #58321D;
+    text-decoration: none;
+}
+.frame-19 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.payment-container {
+    font-size: large;
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
