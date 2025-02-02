@@ -1,0 +1,198 @@
+body {
+    background-color: #f7ece8;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+.navbar.navbar-expand-lg.cabecera {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.btn-iniciar-sesion {
+    background-color: #58321D;
+    padding: 0.9em 1.4em;
+}
+
+button a {
+    color: #FDFBFA;
+    font-family: "Inter", serif;
+    font-size: medium;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+input {
+    border: none;
+    background-color: #f7ece8;
+    border-radius: 10px;
+    padding: 0em 0.2em;
+}
+
+input:focus {
+    outline: none;
+}
+
+.busqueda {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid;
+    border-color: #808080;
+    opacity: 0.75;
+    padding: 12px 1em;
+    border-radius: 10px;
+}
+
+.cart-container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity-btn {
+    border: 1px solid #ddd;
+    background: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-input {
+    width: 40px;
+    text-align: center;
+    border: none;
+}
+
+.btn-checkout {
+    background-color: #B93A32;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    width: 40%;
+}
+
+.btn-checkout:hover {
+    background-color: #9e2f28;
+}
+
+.delivery-box {
+    background-color: #B93A32;
+    color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    margin-left: auto;
+    max-height: 170px;
+}
+
+.product-row {
+    border-bottom: 1px solid #eee;
+    padding: 1rem 0;
+}
+
+.main-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.cart-section {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 2rem;
+}
+
+@media (max-width: 992px) {
+    .cart-section {
+        grid-template-columns: 1fr;
+    }
+
+    .delivery-box {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 650px) {
+    .frame-19 {
+        display: none;
+    }
+}
+
+.boton {
+    color: white;
+}
+
+.btn-vaciar {
+    width: 40%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #B93A32;
+    color: white;
+}
+
+.btn-vaciar:hover {
+    background-color: #9e2f28;
+}
+
+.frame {
+    display: flex;
+    justify-content: space-around;
+}
+
+#mapa {
+    height: 500px;
+    border-radius: 10px;
+}
+
+#listaUbicaciones .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#listaUbicaciones .list-group-item:hover {
+    background-color: #e9ecef;
+}
+
+#listaUbicaciones .list-group-item .ubicacion-info h5 {
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+#listaUbicaciones .list-group-item .ubicacion-info p {
+    margin-bottom: 0;
+    color: #6c757d;
+}
+
+.card-header {
+    background: #58321D;
+    color: white;
+}
+
+.ubi {
+    font-weight: bold;
+}
+
+.punto-entrega {
+    font-weight: bold;
+}

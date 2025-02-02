@@ -3,10 +3,10 @@ services:
     image: mysql:9.1.0
     container_name: DG-MySQL
     environment:
-      MYSQL_ROOT_PASSWORD: DonGalleta123*_
-      MYSQL_DATABASE: DonGalleta
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: DonGalleta123*_
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3316:3306"
     volumes:
@@ -27,6 +27,7 @@ services:
     container_name: DG-Apache
     volumes:
       - ./www:/var/www/html
+      - ./www/config/apache-config.conf:/etc/apache2/sites-available/000-default.conf
     ports:
       - "8085:80"
     depends_on:

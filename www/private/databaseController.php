@@ -15,13 +15,9 @@ function conexion()
     return $pdo;
 }
 
-function imprimeUsuarios($pdo)
+function cerrarConexion(&$pdo)
 {
-    $users = $pdo->query("SELECT * FROM Usuarios")->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($users as $user) {
-        echo $user["nombre"] . "<br>";
-        echo $user["email"] . "<br>";
-        echo $user["password"] . "<br><br>";
-    }
+    $pdo = null;
 }
+
 ?>
