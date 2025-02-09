@@ -1,0 +1,168 @@
+
+body {
+    font-family: "Poppins", Helvetica, sans-serif;
+    background-color: #f7ece8;
+}
+header {
+    background-color: #930606d4;
+    color: #f0d2b8;
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .foto-logo img {
+    width: 170px; 
+    height: auto; 
+  }
+.contact-form-section {
+    max-width: 600px;
+    margin: auto;
+    padding: 40px;
+    background-color: #f0d2b8;
+    border-radius: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-label {
+    font-weight: 500;
+    color: #404040;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #808080;
+}
+
+.form-control:focus {
+    border-color: #974837;
+    box-shadow: 0 0 8px rgba(151, 72, 55, 0.5);
+}
+
+.btn-submit {
+    background-color: #974837;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+.btn-submit:hover {
+    background-color: #58321d;
+}
+
+.confirmation-message {
+    text-align: center;
+    color: #404040;
+    font-size: 18px;
+}
+
+.footer {
+    background-color: #930606d4;
+    color: white;
+    padding: 30px 0;
+    font-family: "Poppins", Helvetica, sans-serif;
+}
+
+.frame {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.frame-2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.frame-3 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.frame-3 .img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.text-wrapper {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.frame-4 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.text-wrapper-2 {
+    margin: 5px 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.redes-sociales {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.redes-sociales div {
+    width: 30px;
+}
+
+.redes-sociales img {
+    width: 100%;
+}
+
+
+@media (max-width: 768px) {
+    .frame {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .frame-2 {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .frame-4 {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .redes-sociales {
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .frame-3 .img {
+        width: 30px;
+    }
+
+    .text-wrapper {
+        font-size: 18px;
+    }
+
+    .text-wrapper-2 {
+        font-size: 14px;
+    }
+
+    .redes-sociales div {
+        width: 25px;
+    }
+}
