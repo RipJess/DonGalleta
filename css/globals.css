@@ -1,0 +1,31 @@
+/* GLOBALES */
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Inter:opsz,wght@14..32,100..900&family=Poppins:ital,wght@0,400;0,500;1,500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+    background-color: transparent !important;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    background-color: #f7ece8;
+
+}
+
+button {
+    border: none;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+img {
+    background-color: transparent !important;
+}
