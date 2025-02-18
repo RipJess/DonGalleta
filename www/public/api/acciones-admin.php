@@ -1,6 +1,5 @@
 <?php
 require_once '../../private/adminController.php';
-header('Content-Type: application/json');
 $admin = new adminController();
 $response = [];
 
@@ -12,10 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
         case 'actualizar':
             $response = $admin->actualizaProducto($_POST['id_producto'], htmlspecialchars($_POST['nombre']), htmlspecialchars($_POST['descripcion']), $_POST['precio'], $_POST['stock'], $_POST['disponibilidad']);
+            header('Content-Type: application/json');
             echo json_encode($response);
             break;
         case 'eliminar':
             $response = $admin->eliminaProducto($_POST['id_producto']);
+            header('Content-Type: application/json');
             echo json_encode($response);
             break;
         case 'nuevo-sabor':
@@ -28,32 +29,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    header('Content-Type: application/json');
     switch ($_GET['action']) {
         case 'obtenerProducto':
             $id_producto = $_GET['id'] ?? null;
-        
+
             if (!$id_producto) {
                 echo json_encode(['error' => 'No se ha encontrado el ID del producto']);
                 exit();
             }
-        
+
             $response = $admin->getProducto($id_producto);
             echo json_encode($response);
             break;
-        
+
         case 'obtenerPedido':
             $id_pedido = $_GET['id_pedido'] ?? null;
             if (!$id_pedido) {
                 echo json_encode(['error' => 'No se ha encontrado el ID del pedido']);
                 exit();
             }
-        
+
             $response = $admin->getPedido($id_pedido);
             echo json_encode($response);
-            
             break;
     }
-
-
 }
 ?>

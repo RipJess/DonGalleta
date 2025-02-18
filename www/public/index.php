@@ -279,13 +279,13 @@ $pdo = conexion();
             </nav>
         </div>
         <div class="redes-sociales">
-            <a href="#">
+            <a href="https://www.facebook.com/share/1Ba17Uf77Z/?mibextid=wwXIfr">
                 <img src="./img/facebook-icon.svg" alt="">
             </a>
             <a href="#">
                 <img src="./img/twitter-icon.svg" alt="">
             </a>
-            <a href="">
+            <a href="https://www.instagram.com/dongalletaa?igsh=ZXVtb3JiZThvanQ0">
                 <img src="./img/instagram-icon.svg" alt="">
             </a>
         </div>
