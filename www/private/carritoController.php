@@ -1,80 +1,141 @@
 <?php
 session_start();
-include_once 'databaseController.php';
+require_once 'databaseController.php';
 
-class CarritoCompras {
+class CarritoCompras
+{
     private $pdo;
-    
-    public function __construct() {
+    private $id_usuario;
+
+    public function __construct()
+    {
         $this->pdo = conexion();
-        if (!isset($_SESSION['carrito'])) {
-            $_SESSION['carrito'] = [];
+        $this->id_usuario = $_SESSION['id'];
+    }
+
+    public function obtenerProductosCarrito()
+    {
+        try {
+            $sql = "SELECT *
+                    FROM Vista_Carrito_Usuario
+                    WHERE id_usuario = :id_usuario";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':id_usuario' => $this->id_usuario]);
+            $carrito = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $carrito;
+        } catch (PDOException $th) {
+            return ['success' => false, 'message' => $th->getMessage()];
         }
     }
 
-    public function obtenerProductosCarrito() {
-        $productos = [];
-        foreach ($_SESSION['carrito'] as $id_producto => $cantidad) {
-            $stmt = $this->pdo->prepare("SELECT id_producto, nombre, precio, imagen FROM Productos WHERE id_producto = ?");
-            $stmt->execute([$id_producto]);
+    public function agregarProducto($id_producto)
+    {
+        try {
+            $sql = "SELECT stock, disponibilidad FROM Productos WHERE id = :idProducto";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':idProducto' => $id_producto]);
             $producto = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($producto) {
-                $producto['cantidad'] = $cantidad;
-                $producto['subtotal'] = $cantidad * $producto['precio'];
-                $productos[] = $producto;
+
+            if (!$producto) {
+                return ['success' => false, 'message' => 'El producto no existe'];
+            } elseif ($producto['disponibilidad'] <= 0) {
+                return ['success' => false, 'message' => 'El producto no esta disponible'];
             }
-        }
-        return $productos;
-    }
 
-    public function agregarProducto($id_producto) {
-        $stmt = $this->pdo->prepare("SELECT disponibilidad FROM Productos WHERE id_producto = ?");
-        $stmt->execute([$id_producto]);
-        $producto = $stmt->fetch(PDO::FETCH_ASSOC);
+            $sql = "SELECT cantidad FROM Carrito WHERE id_usuario = :idUsuario AND id_producto = :idProducto";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                ':idUsuario' => $this->id_usuario,
+                ':idProducto' => $id_producto
+            ]);
+            $existeProducto = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($producto && $producto['disponibilidad'] > 0) {
-            if (isset($_SESSION['carrito'][$id_producto])) {
-                $_SESSION['carrito'][$id_producto]++;
+            if ($existeProducto) {
+                $nueva_cantidad = $existeProducto['cantidad'] + 1;
+                if ($nueva_cantidad > $producto['stock']) {
+                    return ['success' => false, 'message' => 'No hay suficiente stock.'];
+                }
+
+                $sql = "UPDATE Carrito SET cantidad = cantidad + 1 WHERE id_usuario = :id_usuario AND id_producto = :id_producto";
             } else {
-                $_SESSION['carrito'][$id_producto] = 1;
+                if ($producto['stock'] <= 0) {
+                    return ['success' => false, 'message' => 'No hay suficiente stock.'];
+                }
+                $sql = "INSERT INTO Carrito (id_usuario, id_producto, cantidad) VALUES (:id_usuario, :id_producto, 1)";
             }
+
+            $this->pdo->prepare($sql)->execute(["id_usuario" => $this->id_usuario, "id_producto" => $id_producto]);
             return ['success' => true, 'message' => 'Producto agregado al carrito'];
+
+        } catch (PDOException $th) {
+            return ['success' => false, 'message' => $th->getMessage()];
         }
-        return ['success' => false, 'message' => 'Producto no disponible'];
+    }
+    public function actualizarCantidad($id_producto, $cantidad)
+    {
+        try {
+            $sql = "SELECT stock, disponibilidad FROM Productos WHERE id = :idProducto";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':idProducto' => $id_producto]);
+            $producto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$producto) {
+                return ['success' => false, 'message' => 'El producto no existe'];
+            } elseif ($producto['disponibilidad'] <= 0) {
+                return ['success' => false, 'message' => 'El producto ya no esta disponible'];
+            }
+
+            if ($cantidad > $producto['stock']) {
+                return ['success' => false, 'message' => 'No puedes agregar más unidades.'];
+            }
+
+            if ($cantidad > 0) {
+                $sql = "UPDATE Carrito SET cantidad = :cantidad WHERE id_usuario = :id_usuario AND id_producto = :id_producto";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute([
+                    ':cantidad' => $cantidad,
+                    ':id_usuario' => $this->id_usuario,
+                    ':id_producto' => $id_producto
+                ]);
+                return ['success' => true, 'message' => 'Cantidad actualizada'];
+            } else {
+                $sql = "DELETE FROM Carrito WHERE id_usuario = :id_usuario AND id_producto = :id_producto";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute([
+                    ':id_usuario' => $this->id_usuario,
+                    ':id_producto' => $id_producto
+                ]);
+                return ['success' => true, 'message' => 'Producto eliminado'];
+            }
+        } catch (PDOException $th) {
+            return ['success' => false, 'message' => $th->getMessage()];
+        }
     }
 
-    public function actualizarCantidad($id_producto, $cantidad) {
-        if ($cantidad <= 0) {
-            unset($_SESSION['carrito'][$id_producto]);
-            return ['success' => true, 'message' => 'Producto eliminado del carrito'];
+    public function vaciarCarrito()
+    {
+        try {
+            $sql = "DELETE FROM Carrito WHERE id_usuario = :id_usuario";
+            $this->pdo->prepare($sql)->execute([':id_usuario' => $this->id_usuario]);
+            return ['success' => true, 'message' => 'Carrito vaciado con exito.'];
+        } catch (PDOException $th) {
+            return ['success' => false, 'message' => $th->getMessage()];
         }
-
-        $stmt = $this->pdo->prepare("SELECT disponibilidad FROM Productos WHERE id_producto = ?");
-        $stmt->execute([$id_producto]);
-        $producto = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($producto && $producto['disponibilidad'] >= $cantidad) {
-            $_SESSION['carrito'][$id_producto] = $cantidad;
-            return ['success' => true, 'message' => 'Cantidad actualizada'];
-        }
-        return ['success' => false, 'message' => 'Cantidad no disponible'];
     }
 
-    public function obtenerTotal() {
-        $total = 0;
-        foreach ($this->obtenerProductosCarrito() as $producto) {
-            $total += $producto['subtotal'];
+    public function precioTotal()
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT total FROM Vista_Total_Carrito WHERE id_usuario = :id_usuario");
+            $stmt->execute([':id_usuario' => $this->id_usuario]);
+            $totalCarrito = $stmt->fetchColumn();
+    
+            return ['success' => true, "total" => $totalCarrito ?: 0];
+        } catch (PDOException $th) {
+            return ['success' => false, 'message' => $th->getMessage()];
         }
-        return $total;
-    }
-
-    public function obtenerNumeroItems() {
-        return array_sum($_SESSION['carrito']);
-    }
-
-    public function vaciarCarrito() {
-        $_SESSION['carrito'] = [];
-        return ['success' => true, 'message' => 'Carrito vaciado'];
     }
 }
 ?>

@@ -25,7 +25,7 @@
                 <!-- Campo Usuario -->
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingInput" placeholder="ejemplo@correo.com"
-                        name="nombre">
+                        name="nombre" required>
                     <label for="floatingInput">Ingrese un nombre de usuario</label>
                 </div>
                 <?php
@@ -38,7 +38,7 @@
                 <!-- Campo Correo Electrónico -->
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingInput" placeholder="ejemplo@correo.com"
-                        name="email">
+                        name="email" required>
                     <label for="floatingInput">Ingrese un correo electrónico</label>
                 </div>
                 <?php
@@ -54,7 +54,7 @@
                 <!-- Campo Contraseña -->
                 <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="floatingPassword" placeholder="••••••••"
-                        name="password">
+                        name="password" required>
                     <label for="floatingPassword">Ingrese una contraseña</label>
                 </div>
                 <?php

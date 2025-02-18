@@ -20,7 +20,7 @@ $pdo = conexion();
 <body>
     <nav class="navbar navbar-expand-lg cabecera" style="margin-top: 55px; margin-bottom: 40px;">
         <div class="container-fluid" style="display: flex; justify-content: center;">
-            <a href="index.html " class="navbar-brand">
+            <a href="index.php" class="navbar-brand">
                 <img class="img-fluid" src="./img/logo.png" alt="logo" width="550">
             </a>
         </div>
@@ -43,7 +43,7 @@ $pdo = conexion();
             </button>
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="btn-group">
-                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static"
+                    <button type="button" class="btn dropdown-toggle" id="usuario-aut" data-bs-toggle="dropdown" data-bs-display="static"
                         aria-expanded="false">
                         <?php echo htmlspecialchars($_SESSION["user"]); ?>
                     </button>
@@ -69,56 +69,35 @@ $pdo = conexion();
 
     <div class="container-fluid" style="padding: 0 10%;">
         <p class="texto">Resultados para: "<?php echo htmlspecialchars($_GET['search']); ?>" </p>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3" style="gap: 2rem; justify-content: center;">
-            <?php
-            if (isset($_GET['search']) && !empty($_GET['search'])) {
-                $query = trim($_GET['search']);
-                try {
-                    $sql = "SELECT p.*, s.nombre AS sabor
-                                        FROM Productos p
-                                        JOIN Sabores s ON p.id_sabor = s.id_sabor
-                                        WHERE p.nombre LIKE :query OR s.nombre LIKE :query";
-
-                    $stmt = $pdo->prepare($sql);
-                    $stmt->execute([':query' => '%' . $query . '%']);
-                    $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                    if (count($productos) > 0) {
-                        foreach ($productos as $producto) {
-                            echo "
-                            <div class='casilla'>
-                                <img class='img-fluid' style='border-radius: 25px;' width='200' src='img/rectangle-26.png'>
-                                <div class='descripcion'>
-                                    <p class='nombre-galleta'>{$producto['nombre']}</p>
-                                    <p class='sabor'>{$producto['sabor']}</p>
-                                    <div class='precio'>
-                                        <img src='img/precio.svg'>
-                                        <p class='nombre-galleta' style='font-size: 16px; margin-bottom: 0px;'>{$producto['precio']}</p>
-                                    </div>
-                                    <br>
-                                    <form action='agregar-al-carrito.php' method='post'>
-                                        <input type='hidden' name='id_producto' value='{$producto['id_producto']}'>
-                                        <input type='hidden' name='action' value='agregar'>
-                                        <input type='hidden' name='busqueda' value='{$_GET['search']}'>
-                                        <button type='submit' class='btn btn-outline-danger btn-sm btn-accion'>Agregar al carrito</button>
-                                    </form>
-                                </div>
-                            </div>
-                            ";
-                        }
-                    } else {
-                        echo "<p>No se encontraron productos relacionados con tu búsqueda.</p>";
-                    }
-                } catch (PDOException $e) {
-                    echo "Error: " . $e->getMessage();
-                }
-            } else {
-                echo "<p>Por favor, ingresa un término de búsqueda.</p>";
-            }
-            ?>
+        <div style="padding: 10px 30px 30px; width: 40rem; display: flex; justify-content: space-between;">
+            <input type="text" class="form-control" id="busqueda"
+                value="<?php echo htmlspecialchars($_GET['search']); ?>"
+                placeholder="<?php echo htmlspecialchars($_GET['search']); ?>" oninput="mostrarProductos()">
+            <select class="form-select form-select-sm" id="orden" onchange="mostrarProductos()">
+                <option value="">Ordenar por...</option>
+                <option value="nombre_asc">Nombre (A-Z)</option>
+                <option value="nombre_desc">Nombre (Z-A)</option>
+                <option value="precio_asc">Precio (Menor a Mayor)</option>
+                <option value="precio_desc">Precio (Mayor a Menor)</option>
+                <option value="sabor_asc">Sabor (A-Z)</option>
+                <option value="sabor_desc">Sabor (Z-A)</option>
+            </select>
+        </div>
+        <div class="alert alert-danger d-none" id="noUsuario" role="alert">
+            Debes iniciar sesión para agregar productos al carrito!
+        </div>
+        <div class="alert alert-success d-none" id="mostrarAlerta" role="alert">
+            Producto agregado al carrito!
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3" id="resultados"
+            style="gap: 2rem; justify-content: center;">
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/buscar.js"></script>
 </body>
+<script>
+
+</script>
 
 </html>
