@@ -31,7 +31,7 @@
                         name="password">
                     <label for="floatingPassword">Contraseña</label>
                     <br>
-                    <a href="#" class="forgot-password">¿Olvidate tu contraseña?</a>
+                    <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
                 </div>
                 <br>
 
@@ -41,13 +41,13 @@
                         if ($_GET["error"] == 1) {
                             echo '
                                 <div class="alert alert-danger" role="alert">
-                                    Formulario Vacio
+                                    Por favor, llena todos los campos.
                                 </div>
                                 ';
                         } else if ($_GET["error"] == 2) {
                             echo '
                                 <div class="alert alert-danger text-center" role="alert">
-                                    Correo o contraseña incorrectos
+                                    Correo o contraseña incorrectos.
                                 </div>
                                 ';
                         }

@@ -1,9 +1,3 @@
-body {
-    background-color: #f7ece8;
-    min-height: 100vh;
-    padding: 20px 0;
-}
-
 .navbar.navbar-expand-lg.cabecera {
     display: flex;
     flex-direction: row;
@@ -43,6 +37,47 @@ input:focus {
     opacity: 0.75;
     padding: 12px 1em;
     border-radius: 10px;
+}
+
+
+.pie {
+    background-color: #930606d4;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 3em;
+}
+
+.mas-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    list-style: none;
+    gap: 4em;
+    padding: 0;
+    margin: 0;
+
+}
+
+li > a {
+    font-family: "Inter", serif;
+    font-weight: 400;
+    color: black;
+}
+
+.footer-contenido {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 2em;
+}
+
+.redes-sociales {
+    display: flex;
+    flex-direction: row;
+    gap: 0.7em;
+    margin: 20px 0;
 }
 
 .texto {
