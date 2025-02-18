@@ -19,19 +19,23 @@ function iniciar_sesion($correo, $cont)
     $contrasena = trim($cont);
 
     try {
-        $sql = "SELECT * FROM Usuarios WHERE email = :email AND password = SHA2( :password, 256) LIMIT 1";
+        $sql = "SELECT * FROM Usuarios WHERE email = :email LIMIT 1";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-        $stmt->bindParam(':password', $contrasena, PDO::PARAM_STR);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // $stmt->bindParam(':password', $contrasena, PDO::PARAM_STR);
+
         if ($user) {
+            if (!password_verify($contrasena, $user['password'])) {
+                return false;
+            }    
             //ini_set('session.gc_maxlifetime', 6*3600);
             //session_set_cookie_params(6*3600);
 
             $_SESSION['last_access'] = date("Y-m-d H:i:s");
-            $_SESSION['id'] = $user["id_usuario"];
+            $_SESSION['id'] = $user["id"];
             $_SESSION['user'] = $user["nombre"];
             $_SESSION['correo'] = $email;
             $_SESSION['password'] = $user["password"];
@@ -50,9 +54,12 @@ function iniciar_sesion($correo, $cont)
 function cerrar_sesion()
 {
     session_start();
-    session_destroy();
-    header("Location: ../index.php");
-    exit();
+    if (session_destroy()) {
+        header("Location: ../index.php");
+        exit();        
+    }else {
+        echo "Ha ocurrido un error.";
+    }
 }
 
 function registro_usuario()
@@ -89,7 +96,8 @@ function registro_usuario()
             }
 
             try {
-                $sql = "INSERT INTO Usuarios (nombre, email, password, rol) VALUES (:nombre, :email, SHA2( :password, 256), 'cliente')";
+                $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+                $sql = "INSERT INTO Usuarios (nombre, email, password, rol) VALUES (:nombre, :email, :password, 'cliente')";
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
                 $stmt->bindParam(':email', $email, PDO::PARAM_STR);

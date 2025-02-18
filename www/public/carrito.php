@@ -4,7 +4,7 @@ require_once "../private/databaseController.php";
 $pdo = conexion();
 
 if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit();
 }
 ?>
@@ -26,7 +26,7 @@ if (!isset($_SESSION['id'])) {
 <body>
     <nav class="navbar navbar-expand-lg cabecera" style="margin-top: 55px; margin-bottom: 40px;">
         <div class="container-fluid" style="display: flex; justify-content: center;">
-            <a href="index.html " class="navbar-brand">
+            <a href="index.php " class="navbar-brand">
                 <img class="img-fluid" src="./img/logo.png" alt="logo" width="550">
             </a>
         </div>
@@ -82,8 +82,9 @@ if (!isset($_SESSION['id'])) {
                     <h4 id="total-carrito">$0.00</h4>
                 </div>
                 <div class="frame">
-                    <button class="btn-vaciar mt-3 mb-2" onclick="vaciarCarrito()">Vaciar carrito</button>
-                    <button class="btn-checkout mt-3 mb-2" onclick="realizarPago()">Realizar pago</button>
+                    <button type="button" class="btn-vaciar mt-3 mb-2" onclick="vaciarCarrito()">Vaciar carrito</button>
+                    <button type="button" id="realizarPago" class="btn-checkout mt-3 mb-2"
+                        onclick="validarPago()">Realizar pago</button>
                 </div>
             </div>
             <div class="delivery-box">
@@ -116,193 +117,103 @@ if (!isset($_SESSION['id'])) {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-    <script>
-        class MapaUbicaciones {
-            constructor() {
-                this.mapa = L.map('mapa').setView([17.811972882442998, -97.77996156738978], 14);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© Colaboradores de OpenStreetMap'
-                }).addTo(this.mapa);
-                this.deliveryBox = document.querySelector('.delivery-box p');
-            }
-
-            obtenerSucursales() {
-                fetch('./api/mapa-ubi.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'action=obtener_sucursales'
-                })
-                    .then(response => response.json())
-                    .then(sucursales => {
-                        this.mostrarSucursales(sucursales);
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error al obtener las sucursales');
-                    });
-            }
-
-            actualizarDireccionEntrega(nombre, direccion) {
-                if (this.deliveryBox) {
-                    let nombreMayus = nombre.toUpperCase();
-                    this.deliveryBox.innerHTML = `
-                        <strong>${nombreMayus}</strong><br>
-                        ${direccion}
-                    `;
-                }
-            }
-
-            mostrarSucursales(sucursales) {
-                const listaUbicaciones = document.getElementById('listaUbicaciones');
-                listaUbicaciones.innerHTML = '';
-
-                sucursales.forEach(sucursal => {
-                    const itemLista = document.createElement('li');
-                    itemLista.className = 'list-group-item list-group-item-action';
-                    itemLista.textContent = sucursal.nombre;
-                    itemLista.setAttribute('data-lat', sucursal.latitud);
-                    itemLista.setAttribute('data-lng', sucursal.longitud);
-                    itemLista.setAttribute('data-direccion', sucursal.direccion);
-                    listaUbicaciones.appendChild(itemLista);
-
-                    const marcador = L.marker([sucursal.latitud, sucursal.longitud])
-                        .addTo(this.mapa)
-                        .bindPopup(sucursal.nombre);
-
-                    // Actualizar dirección al hacer clic en el marcador
-                    marcador.on('click', () => {
-                        this.actualizarDireccionEntrega(sucursal.nombre, sucursal.direccion);
-                    });
-                });
-
-                document.querySelectorAll('.list-group-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const lat = parseFloat(item.getAttribute('data-lat'));
-                        const lng = parseFloat(item.getAttribute('data-lng'));
-                        const nombre = item.textContent;
-                        const direccion = item.getAttribute('data-direccion');
-
-                        // Actualizar el mapa
-                        this.mapa.flyTo([lat, lng], 16, {
-                            duration: 1.5,
-                            easeLinearity: 0.25
-                        });
-
-                        // Actualizar la dirección de entrega
-                        this.actualizarDireccionEntrega(nombre, direccion);
-                    });
-                });
-            }
-        }
-
-        const mapa = new MapaUbicaciones();
-        mapa.obtenerSucursales();
-    </script>
-    <script>
-        // Plantilla para un producto en el carrito
-        function productoTemplate(producto) {
-            return `
-                <div class="product-row" data-id="${producto.id_producto}">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5>${producto.nombre}</h5>
-                            <p class="text-muted">$${producto.precio}</p>
-                        </div>
-                        <div class="quantity-control">
-                            <button class="quantity-btn" onclick="decrementarCantidad(${producto.id_producto})">-</button>
-                            <input type="text" value="${producto.cantidad}" class="quantity-input" readonly>
-                            <button class="quantity-btn" onclick="incrementarCantidad(${producto.id_producto})">+</button>
-                        </div>
+    <div class="modal fade" id="realizarCompra" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Realizar compra</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="payment-container">
+                        <h2 class="mb-3">Escoge tu método de pago</h2>
+                        <div id="paypal-button-container"></div>
                     </div>
                 </div>
-            `;
-        }
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger btn-sm btn-accion"
+                        data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-        function cargarCarrito() {
-            fetch('./api/acciones-carrito.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AadDx0jK0TElff2zyNBXSpvKdl0dIKPPxz44C-F960lcA65rPUiqUBnnbc9CGs360o9Su3DEtWVZdSGH&currency=MXN"
+        data-sdk-integration-source="developer-studio"></script>
+    <script src='./js/carrito.js'></script>
+    <script src='./js/mapa.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            paypal.Buttons({
+                style: {
+                    color: 'blue',
+                    shape: 'pill',
+                    label: 'pay'
                 },
-                body: 'action=obtener'
-            })
-                .then(response => response.json())
-                .then(data => {
-                    const container = document.getElementById('productos-carrito');
-                    container.innerHTML = '';
-                    data.productos.forEach(producto => {
-                        container.innerHTML += productoTemplate(producto);
-                    });
-                    document.getElementById('total-carrito').textContent = `$${data.total.toFixed(2)}`;
-                    document.getElementById('num-items').textContent = `No. Items: ${data.num_items}`;
-                });
-        }
-
-        function actualizarCantidad(id_producto, cantidad) {
-            fetch('./api/acciones-carrito.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `action=actualizar&id_producto=${id_producto}&cantidad=${cantidad}`
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        cargarCarrito();
-                    } else {
-                        alert(data.message);
-                    }
-                });
-        }
-
-        function vaciarCarrito() {
-            if (confirm('¿Está seguro que desea vaciar el carrito?')) {
-                fetch('./api/acciones-carrito.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'action=vaciar'
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            cargarCarrito(); // Recarga el carrito vacío
-                        } else {
-                            alert('Error al vaciar el carrito');
-                        }
+                createOrder: function (data, actions) {
+                    return fetch('./api/acciones-carrito.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: 'action=precioTotal'
                     })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error al procesar la solicitud');
+                        .then(response => response.json())
+                        .then(data => {
+                            return actions.order.create({
+                                purchase_units: [{
+                                    amount: {
+                                        value: data.total
+                                    }
+                                }]
+                            });
+                        })
+                        .catch(error => {
+                            console.error("Error obteniendo el total:", error);
+                            alert("Error al obtener el total del carrito.");
+                        });
+                },
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        let sucursal = parseInt(document.querySelector(".delivery-box p strong").dataset.id);
+
+                        // Enviar datos a PHP para guardarlos en la base de datos
+                        fetch('./api/acciones-paypal.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                orderID: data.orderID,
+                                details: details,
+                                sucursal: sucursal
+                            })
+                            // 'orderID='+encodeURIComponent(data.orderID)+'&details='+encodeURIComponent(JSON.stringify(details))
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                // console.log("Respuesta cruda del servidor:", data);
+                                // return JSON.parse(data);
+                                if (data.success) {
+                                    alert("✔️ Pago completado correctamente.");
+                                    window.location.href = "ticket.php";
+                                    // window.location.href = "carrito.php";
+                                } else {
+                                    alert("Error al guardar el pago: " + data.message);
+                                }
+                            })
+                            .catch(error => console.error("Error de cagada:", error));
                     });
-            }
-        }
-
-        function incrementarCantidad(id_producto) {
-            const input = document.querySelector(`.product-row[data-id="${id_producto}"] .quantity-input`);
-            const nuevaCantidad = parseInt(input.value) + 1;
-            actualizarCantidad(id_producto, nuevaCantidad);
-        }
-
-        function decrementarCantidad(id_producto) {
-            const input = document.querySelector(`.product-row[data-id="${id_producto}"] .quantity-input`);
-            const nuevaCantidad = parseInt(input.value) - 1;
-            actualizarCantidad(id_producto, nuevaCantidad);
-        }
-
-        function realizarPago() {
-            alert('Redirigiendo al proceso de pago...');
-        }
-
-        // Cargar el carrito al iniciar la página
-        document.addEventListener('DOMContentLoaded', cargarCarrito);
+                },
+                onError: function (err) {
+                    console.error('Error en PayPal:', err);
+                    alert("❌ Error en el pago. Intenta de nuevo.");
+                }
+            }).render('#paypal-button-container');
+        });
     </script>
 </body>
 
