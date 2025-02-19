@@ -10,6 +10,10 @@ El sistema está construido dentro de un contenedor de Docker con mySQL, PhpMyAd
 ademas de hacer uso de JS para acciones tipo fetch y dinamicas en el sitio web; y CSS para el diseño.
 
 ## Ejecución
+> [!IMPORTANT]
+> Es necesario estar en un entorno Linux y tener Docker instalado.
+
+
 Para ejecutar localmente el proyecto, seguir estos pasos:
 ### 1. Clonar el repositorio
 ```bash 
