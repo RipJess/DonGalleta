@@ -11,9 +11,9 @@ services:
       - "3316:3306"
     volumes:
       - ./data:/var/lib/mysql
-    
+
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest 
+    image: phpmyadmin/phpmyadmin:latest
     container_name: DG-PHPMyAdmin
     environment:
       PMA_HOST: mysql
@@ -23,7 +23,7 @@ services:
       - mysql
 
   apache:
-    image: php:8.2-apache
+    build: .
     container_name: DG-Apache
     volumes:
       - ./www:/var/www/html

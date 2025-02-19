@@ -177,7 +177,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'administrador') {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form class="agrega-producto" action="./api/acciones-admin.php" method="post">
+                        <form class="agrega-producto" action="./api/acciones-admin.php" method="post" enctype="multipart/form-data">
                             <div class="form-floating">
                                 <input type="text" class="form-control" name="nombre" id="nombre" placeholder="New York"
                                     required>
@@ -225,8 +225,8 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'administrador') {
                                 <label for="cantidad">Cantidad en Inventario</label>
                             </div>
                             <div class="input-group mb-3">
-                                <input type="file" name="imagen" accept="image/" class="form-control" id="inputGroupFile">
-                                <label class="input-group-text" for="inputGroupFile">Subir</label>
+                                <input type="file" name="imagen" accept="image/*" class="form-control" id="imagen">
+                                <label class="input-group-text" for="imagen">Subir</label>
                             </div>
 
                             <hr>

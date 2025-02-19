@@ -21,7 +21,6 @@ class adminController
 
             if (!empty($imagen)) {
                 if ($imagen['error'] === 0) {
-                    // Subir imagen a ImgBB
                     $apiKey = "TU_API_KEY_IMGBB";
                     $imagenData = base64_encode(file_get_contents($imagen['tmp_name']));
                     $ch = curl_init();
@@ -36,7 +35,6 @@ class adminController
                         $imagenUrl = $respuesta['data']['url'];
                     } else {
                         header("Location: ../admin.php?error=2");
-
                     }
                 } else {
                     header("Location: ../admin.php?error=2");
@@ -54,13 +52,14 @@ class adminController
                     $cantidad = 0;
                 }
 
-                $sql = "INSERT INTO Productos (nombre, descripcion, precio, disponibilidad, stock) 
-                    VALUES (:nombre, :descripcion, :precio, :disponibilidad, :stock)";
+                $sql = "INSERT INTO Productos (nombre, descripcion, precio, imagen, disponibilidad, stock) 
+                    VALUES (:nombre, :descripcion, :precio, :imagen, :disponibilidad, :stock)";
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute([
                     ':nombre' => $nombre,
                     ':descripcion' => $descripcion,
                     ':precio' => $precio,
+                    ':imagen' => $imagenUrl,
                     ':disponibilidad' => $disponibilidad,
                     ':stock' => $cantidad
                 ]);
